@@ -22,7 +22,6 @@ def main():
             sheet_key = re.search(r'/d/([a-zA-Z0-9-_]+)', file_path).group(1)
             file_path = f"https://docs.google.com/spreadsheets/d/{sheet_key}/export?format=xlsx"
             resp = requests.get(file_path)
-            # file_name = " ".join(resp.headers.get("Content-Disposition").split(";")[2].split("'")[2].split("%20"))
 
             file_name = "downloaded_sheet"
         except Exception:
@@ -34,9 +33,9 @@ def main():
         print("File already Exists")
 
 
-    buf = pd.ExcelFile(file_path)
-    for sheet in buf.sheet_names:
-        pd.read_excel(buf, sheet_name=sheet).to_csv(f"{file_name}/{sheet}.csv", index=False)
+    excel_file = pd.ExcelFile(file_path)
+    for sheet in excel_file.sheet_names:
+        pd.read_excel(excel_file, sheet_name=sheet).to_csv(f"{file_name}/{sheet}.csv", index=False)
     
     print(f"Sheets have been saved under {file_name}/")
     
